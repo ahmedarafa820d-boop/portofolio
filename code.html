@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bee.eg - Premium Skincare for Women</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --peach: #FAD5A5;
+            --lavender: #E6E6FA;
+            --mint: #F0FFF0;
+            --coral: #F5DEB3;
+        }
+        body {
+            background-color: var(--lavender);
+            color: #333;
+            font-family: 'Georgia', serif;
+        }
+        .nav-link {
+            transition: all 0.3s ease;
+        }
+        .nav-link:hover {
+            background-color: var(--peach);
+            transform: scale(1.05);
+        }
+        .section {
+            display: none;
+        }
+        .active {
+            display: block;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .product-card:hover {
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transform: translateY(-5px);
+        }
+        .product-card p {
+            line-height: 1.6;
+        }
+        .icon-button {
+            background-color: var(--peach);
+            border: 2px solid var(--mint);
+            color: #333;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            text-transform: uppercase;
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .icon-button:hover {
+            background-color: var(--coral);
+            border-color: var(--peach);
+        }
+        .hamburger {
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            width: 24px;
+            height: 18px;
+        }
+        .bar {
+            width: 24px;
+            height: 3px;
+            background-color: #333;
+            margin: 2px 0;
+            transition: 0.3s;
+        }
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 300px;
+            height: 100%;
+            background-color: var(--coral);
+            padding: 20px;
+            transition: left 0.3s;
+            border-right: 5px solid var(--peach);
+            z-index: 20;
+        }
+        .sidebar.open {
+            left: 0;
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            display: none;
+            z-index: 15;
+        }
+        .overlay.show {
+            display: block;
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                left: -100%;
+            }
+            .sidebar.open {
+                left: 0;
+            }
+        }
+        .logo-text {
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Overlay for mobile -->
+    <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <h3 class="text-xl font-semibold mb-4 text-gray-800">Quick Actions</h3>
+        <button class="icon-button" onclick="showPage('suggestion'); closeSidebar();">SUGGEST</button>
+        <button class="icon-button" onclick="showPage('complaint'); closeSidebar();">COMPLAINT</button>
+        <button class="icon-button" onclick="showPage('job'); closeSidebar();">JOB</button>
+        <button class="icon-button" onclick="showPage('experience'); closeSidebar();">EXPERIENCE</button>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="bg-mint p-4 sticky top-0 z-10">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <div class="hamburger" onclick="toggleSidebar()">
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                </div>
+                <svg width="60" height="50" viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Bee icon stylized -->
+                    <path d="M30 20 L40 10 L50 20 L60 10 L70 20 L70 30 L50 50 L30 30 Z" fill="var(--peach)" stroke="#333" stroke-width="2"/>
+                    <ellipse cx="30" cy="35" rx="3" ry="2" fill="#333"/>
+                    <ellipse cx="35" cy="30" rx="2" ry="1" fill="#333"/>
+                    <ellipse cx="65" cy="35" rx="3" ry="2" fill="#333"/>
+                    <ellipse cx="60" cy="30" rx="2" ry="1" fill="#333"/>
+                    <text x="35" y="75" class="logo-text" fill="#333">Bee.eg</text>
+                </svg>
+                <h1 class="text-2xl font-bold logo-text">Bee.eg</h1>
+            </div>
+            <ul class="flex space-x-6">
+                <li><a href="#" class="nav-link p-2 rounded text-lg" onclick="showPage('home')">Home Display</a></li>
+                <li><a href="#" class="nav-link p-2 rounded text-lg" onclick="showPage('products')">Products Display</a></li>
+                <li><a href="#" class="nav-link p-2 rounded text-lg" onclick="showPage('contact')">Communication</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Home Display Page -->
+    <section id="home" class="section active container mx-auto p-6 fade-in">
+        <div class="text-center mb-8">
+            <h2 class="text-4xl font-bold mb-4">Welcome to Bee.eg</h2>
+            <p class="text-lg">Discover premium skincare products crafted with natural ingredients for radiant, healthy skin.</p>
+        </div>
+        <div class="hero-image mb-8">
+            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/c3c25808-66dc-4aeb-b84b-3e75435b8be6.png" alt="Soft-focus image of a serene woman with glowing, moisturized skin in a botanical garden with lush green leaves and delicate flowers in peach and lavender tones, capturing the essence of natural skincare in a peaceful outdoor setting" class="w-full h-96 object-cover rounded-lg" />
+        </div>
+        <div class="grid md:grid-cols-3 gap-6">
+            <div class="product-card bg-peach p-4 rounded-lg shadow-md transition-all duration-300">
+                <div class="card-image mb-4">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/1afb0880-8f89-4878-a839-020f255ed724.png" alt="Creamy textured face moisturizer in a elegant glass jar with peach liquid and subtle botanical motifs on a soft mint background" class="w-full h-48 object-cover rounded" />
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Hydrating Face Cream</h3>
+                <p class="text-sm mb-4">Nourish your skin with our aloe-infused, non-greasy formula. Perfect for daily use.</p>
+                <button class="bg-coral text-white px-4 py-2 rounded hover:bg-peach hover:text-black">Shop Now</button>
+            </div>
+            <div class="product-card bg-peach p-4 rounded-lg shadow-md transition-all duration-300">
+                <div class="card-image mb-4">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/f02b1452-46a4-41d1-ae14-b60818a95889.png" alt="Natural toner in a simple bottle with green herbal extracts floating in clear liquid, surrounded by fresh mint leaves on a peach linen cloth" class="w-full h-48 object-cover rounded" />
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Gentle Toner</h3>
+                <p class="text-sm mb-4">Balance pH levels and remove impurities with this plant-based toner.</p>
+                <button class="bg-coral text-white px-4 py-2 rounded hover:bg-peach hover:text-black">Shop Now</button>
+            </div>
+            <div class="product-card bg-peach p-4 rounded-lg shadow-md transition-all duration-300">
+                <div class="card-image mb-4">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/992546a7-3d08-4f5d-ac99-49c37cb37ba0.png" alt="Lip balm in a rustic tin with beeswax sheen and wildflower illustrations, placed on a peach scarf with a warm coral glow" class="w-full h-48 object-cover rounded" />
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Nourishing Lip Balm</h3>
+                <p class="text-sm mb-4">Deeply hydrate and protect your lips with natural beeswax and essential oils.</p>
+                <button class="bg-coral text-white px-4 py-2 rounded hover:bg-peach hover:text-black">Shop Now</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Display Page -->
+    <section id="products" class="section container mx-auto p-6 fade-in">
+        <h2 class="text-4xl font-bold text-center mb-8">Our Skincare Collection</h2>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="product-card bg-peach p-6 rounded-lg shadow-md transition-all duration-300">
+                <div class="card-image mb-4">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/7f50b5f7-9be3-459f-ba36-ccc3c8d0ed23.png" alt="Delicate serum bottle with golden droplets on a peach cotton cloth, illuminated by soft natural light in a minimalist setting" class="w-full h-48 object-cover rounded" />
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Antioxidant Serum</h3>
+                <p class="text-sm mb-4">Boost collagen and reduce fine lines with Vitamin C-enriched formula. Key ingredients include vitamin C from acerola cherries, hyaluronic acid for hydration, and green tea extract for antioxidant protection. Benefits include firmer skin, improved elasticity, and a natural glow. Suitable for all skin types, apply morning and evening after cleansing.</p>
+                <p class="font-bold mb-2">$29.99</p>
+            </div>
+            <div class="product-card bg-peach p-6 rounded-lg shadow-md transition-all duration-300">
+                <div class="card-image mb-4">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/f8fd37bb-aee5-4ba3-ba06-aa925a4b4cee.png" alt="Exfoliating scrub in a jar with grainy texture and natural exfoliants, shown on a coral pillow with subtle rose petals for scent indication" class="w-full h-48 object-cover rounded" />
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Gentle Exfoliator</h3>
+                <p class="text-sm mb-4">Remove dead skin cells gently with sugar and oatmeal blend. Featured ingredients are organic cane sugar crystals, colloidal oatmeal for soothing, and rosewater for a fresh scent. It exfoliates without irritation, promotes smoother skin, and enhances product absorption. Use 2-3 times a week on damp skin, rinse thoroughly.</p>
+                <p class="font-bold mb-2">$19.99</p>
+            </div>
+            <div class="product-card bg-peach p-6 rounded-lg shadow-md transition-all duration-300">
+                <div class="card-image mb-4">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/5f74c9fe-5365-4728-b144-7d9d685bc86e.png" alt="Eye cream in a small pot with cooling elements and cucumber slices illustrated, placed on a mint silk fabric" class="w-full h-48 object-cover rounded" />
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Refreshing Eye Cream</h3>
+                <p class="text-sm mb-4">Reduce puffiness and dark circles with cucumber and green tea extract. Contains cucumber extract for cooling, caffeine to depuff, and peptides for firming. Benefits include diminished under-eye shadows, reduced swelling, and smoother texture around the eyes. Apply a small amount gently around the orbital bone daily.</p>
+                <p class="font-bold mb-2">$24.99</p>
+            </div>
+            <div class="product-card bg-peach p-6 rounded-lg shadow-md transition-all duration-300">
+                <div class="card-image mb-4">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/ff1422e3-dbbb-4235-84e7-e2acb8a02a85.png" alt="Night mask in a tube with sparkly mineral particles and dreamy night sky motifs, on a peach velvet surface" class="w-full h-48 object-cover rounded" />
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Overnight Mask</h3>
+                <p class="text-sm mb-4">Wake up to glowing skin with this restorative night treatment. Infused with rosehip oil, shea butter, and squalane for deep nourishment. Features calming lavender oil to promote sleep and repair. Provides intense hydration, evens skin tone, and repairs overnight. Apply to clean skin before bed, leave on until morning.</p>
+                <p class="font-bold mb-2">$34.99</p>
+            </div>
+            <div class="product-card bg-peach p-6 rounded-lg shadow-md transition-all duration-300">
+                <div class="card-image mb-4">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/de484bff-082c-4fd6-919e-7fde679c1cf5.png" alt="Luxurious body lotion in a pump bottle with shimmering gold accents, featuring aloe vera and coconut oil, displayed on a soft lavender blanket with tropical motifs" class="w-full h-48 object-cover rounded" />
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Nourishing Body Lotion</h3>
+                <p class="text-sm mb-4">Hydrate and soften the entire body with this silky lotion. Blended with coconut oil for deep moisture, aloe vera for soothing, and vitamin E for skin repair. Benefits include prevention of dry skin, improved suppleness, and a light, non-greasy finish. Massage into skin daily, especially after showering.</p>
+                <p class="font-bold mb-2">$22.99</p>
+            </div>
+            <div class="product-card bg-peach p-6 rounded-lg shadow-md transition-all duration-300">
+                <div class="card-image mb-4">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/590cf3af-c68a-409b-b17b-b4fe00de04a5.png" alt="Brightening face mask in a sheet format with vitamin C spots and fresh citrus illustrations, unfolded on a coral marble countertop with lemon slices" class="w-full h-48 object-cover rounded" />
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Vitamin C Brightening Mask</h3>
+                <p class="text-sm mb-4">Achieve a radiant complexion with this multi-vitamin sheet mask. Enriched with vitamin C for brightening, niacinamide for oil control, and hyaluronic acid for plumping. Helps fade dark spots, evens tone, and boosts hydration. Apply weekly for 20 minutes, rinse and follow with moisturizer.</p>
+                <p class="font-bold mb-2">$14.99</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Suggestion Page -->
+    <section id="suggestion" class="section container mx-auto p-6 fade-in">
+        <h2 class="text-4xl font-bold text-center mb-8">Send Us Your Suggestions</h2>
+        <div class="max-w-lg mx-auto bg-peach p-6 rounded-lg">
+            <p class="mb-4">We value your ideas for improving our brand and products. Please share your suggestions below.</p>
+            <form id="suggestionForm">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium mb-1" for="suggestionName">Name:</label>
+                    <input type="text" id="suggestionName" name="name" class="w-full p-2 border border-gray-300 rounded" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium mb-1" for="suggestionEmail">Email:</label>
+                    <input type="email" id="suggestionEmail" name="email" class="w-full p-2 border border-gray-300 rounded" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium mb-1" for="suggestionDetails">Your Suggestion:</label>
+                    <textarea id="suggestionDetails" name="suggestion" rows="6" class="w-full p-2 border border-gray-300 rounded" required></textarea>
+                </div>
+                <button type="submit" class="bg-coral text-white px-4 py-2 rounded hover:bg-peach hover:text-black">Send Suggestion</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Complaint Page -->
+    <section id="complaint" class="section container mx-auto p-6 fade-in">
+        <h2 class="text-4xl font-bold text-center mb-8">File a Complaint</h2>
+        <div class="max-w-lg mx-auto bg-peach p-6 rounded-lg">
+            <p class="mb-4">We're sorry if you've had a bad experience. Please help us improve by sharing your complaint.</p>
+            <form id="complaintForm">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium mb-1" for="complaintName">Name:</label>
+                    <input type="text" id="complaintName" name="name" class="w-full p-2 border border-gray-300 rounded" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium mb-1" for="complaintEmail">Email:</label>
+                    <input type="email" id="complaintEmail" name="email" class="w-full p-2 border border-gray-300 rounded" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium mb-1" for="complaintDetails">Your Complaint:</label>
+                    <textarea id="complaintDetails" name="complaint" rows="6" class="w-full p-2 border border-gray-300 rounded" required></textarea>
+                </div>
+                <button type="submit" class="bg-coral text-white px-4 py-2 rounded hover:bg-peach hover:text-black">Submit Complaint</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Job Application Page -->
+    <section id="job" class="section container mx-auto p-6 fade-in">
+        <h2 class="text-4xl font-bold text-center mb-8">Apply for a Job at Bee.eg</h2>
+        <div class="max-w-lg mx-auto bg-peach p-6 rounded-lg">
+            <p class="mb-4">Join our team! Please fill out the application form below.</p>
+            <form id="jobForm">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium mb-1" for="jobName">Name:</label>
+                    <input type="text" id="jobName" name="name" class="w-full p-2 border border-gray-300 rounded" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium mb-1" for="jobEmail">Email:</label>
+                    <input type="email" id="jobEmail" name="email" class="w-full p-2 border border-gray-300 rounded" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium mb-1" for="jobPhone">Phone:</label>
+                    <input type="tel" id="jobPhone" name="phone" class="w-full p-2 border border-gray-300 rounded" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium mb-1" for="jobPosition">Position:</label>
+                    <select id="jobPosition" name="position" class="w-full p-2 border border-gray-300 rounded" required>
+                        <option value="">Select a position</option>
+                        <option value="developer">Developer</option>
+                        <option value="marketer">Marketing Specialist</option>
+                        <option value="sales">Sales Representative</option>
+                        <option value="designer">Product Designer</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium mb-1" for="jobResume">Resume:</label>
+                    <input type="file" id="jobResume" name="resume" class="w-full p-2 border border-gray-300 rounded" accept=".pdf,.doc,.docx" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium mb-1" for="jobCoverLetter">Cover Letter:</label>
+                    <textarea id="jobCoverLetter" name="coverLetter" rows="6" class="w-full p-2 border border-gray-300 rounded" required></textarea>
+                </div>
+                <button type="submit" class="bg-coral text-white px-4 py-2 rounded hover:bg-peach hover:text-black">Submit Application</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Customer Experience Page -->
+    <section id="experience" class="section container mx-auto p-6 fade-in">
+        <h2 class="text-4xl font-bold text-center mb-8">Share Your Experience</h2>
+        <div class="max-w-lg mx-auto bg-peach p-6 rounded-lg">
+            <p class="mb-4">Tell us about your experience with our products. Your feedback helps us improve!</p>
+            <form id="experienceForm">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium mb-1" for="experienceName">Name:</label>
+                    <input type="text" id="experienceName" name="name" class="w-full p-2 border border-gray-300 rounded" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium mb-1" for="experienceEmail">Email:</label>
+                    <input type="email" id="experienceEmail" name="email" class="w-full p-2 border border-gray-300 rounded" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium mb-1" for="experienceRating">Rating:</label>
+                    <select id="experienceRating" name="rating" class="w-full p-2 border border-gray-300 rounded" required>
+                        <option value="">Select a rating</option>
+                        <option value="5">5 Stars</option>
+                        <option value="4">4 Stars</option>
+                        <option value="3">3 Stars</option>
+                        <option value="2">2 Stars</option>
+                        <option value="1">1 Star</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium mb-1" for="experienceDetails">Your Experience:</label>
+                    <textarea id="experienceDetails" name="experience" rows="6" class="w-full p-2 border border-gray-300 rounded" required></textarea>
+                </div>
+                <button type="submit" class="bg-coral text-white px-4 py-2 rounded hover:bg-peach hover:text-black">Share Experience</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Communication and Social Media Page -->
+    <section id="contact" class="section container mx-auto p-6 fade-in">
+        <h2 class="text-4xl font-bold text-center mb-8">Connect with Bee.eg</h2>
+        <div class="grid md:grid-cols-2 gap-8">
+            <div class="bg-peach p-6 rounded-lg">
+                <h3 class="text-2xl font-semibold mb-4">Get in Touch</h3>
+                <form id="contactForm">
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium mb-1" for="name">Name:</label>
+                        <input type="text" id="name" name="name" class="w-full p-2 border border-gray-300 rounded" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium mb-1" for="email">Email:</label>
+                        <input type="email" id="email" name="email" class="w-full p-2 border border-gray-300 rounded" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium mb-1" for="message">Message:</label>
+                        <textarea id="message" name="message" rows="4" class="w-full p-2 border border-gray-300 rounded" required></textarea>
+                    </div>
+                    <button type="submit" class="bg-coral text-white px-4 py-2 rounded hover:bg-peach hover:text-black">Send Message</button>
+                </form>
+            </div>
+            <div class="bg-peach p-6 rounded-lg">
+                <h3 class="text-2xl font-semibold mb-4">Follow Us on Social Media</h3>
+                <p class="mb-4">Stay updated with our latest tips, offers, and new product launches!</p>
+                <div class="flex space-x-4 mb-4">
+                    <a href="#" class="text-xl text-gray-700 hover:text-peach">[FACEBOOK]</a>
+                    <a href="#" class="text-xl text-gray-700 hover:text-peach">[INSTAGRAM]</a>
+                    <a href="#" class="text-xl text-gray-700 hover:text-peach">[TWITTER]</a>
+                    <a href="#" class="text-xl text-gray-700 hover:text-peach">[PINTEREST]</a>
+                </div>
+                <div class="hero-image">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/823c8121-53d9-4851-a1d6-83ab487180ef.png" alt="Group of diverse women with healthy, glowing skin laughing together in a spacious lavender-colored room with large windows showing a lush garden, representing community and skincare joy" class="w-full h-64 object-cover rounded" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function showPage(pageId) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            const activeSection = document.getElementById(pageId);
+            activeSection.classList.add('active', 'fade-in');
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('show');
+        }
+
+        function closeSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            sidebar.classList.remove('open');
+            overlay.classList.remove('show');
+        }
+
+        // Contact form validation and submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            if (name && email && message) {
+                alert('Thank you for your message, ' + name + '! We\'ll get back to you soon.');
+                this.reset();
+            }
+        });
+
+        // Suggestion form
+        document.getElementById('suggestionForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('suggestionName').value;
+            const email = document.getElementById('suggestionEmail').value;
+            const suggestion = document.getElementById('suggestionDetails').value;
+            if (name && email && suggestion) {
+                alert('Thank you for your suggestion, ' + name + '! We appreciate your input.');
+                this.reset();
+            }
+        });
+
+        // Complaint form
+        document.getElementById('complaintForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('complaintName').value;
+            const email = document.getElementById('complaintEmail').value;
+            const complaint = document.getElementById('complaintDetails').value;
+            if (name && email && complaint) {
+                alert('We\'re sorry to hear that, ' + name + '. Your complaint will be addressed.');
+                this.reset();
+            }
+        });
+
+        // Job form
+        document.getElementById('jobForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('jobName').value;
+            const email = document.getElementById('jobEmail').value;
+            const phone = document.getElementById('jobPhone').value;
+            const position = document.getElementById('jobPosition').value;
+            const resume = document.getElementById('jobResume').value;
+            const coverLetter = document.getElementById('jobCoverLetter').value;
+            if (name && email && phone && position && resume && coverLetter) {
+                alert('Thank you for your application, ' + name + '! We\'ll review it and get back to you.');
+                this.reset();
+            }
+        });
+
+        // Experience form
+        document.getElementById('experienceForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('experienceName').value;
+            const email = document.getElementById('experienceEmail').value;
+            const rating = document.getElementById('experienceRating').value;
+            const experience = document.getElementById('experienceDetails').value;
+            if (name && email && rating && experience) {
+                alert('Thank you for sharing your experience, ' + name + '! Your feedback is valuable.');
+                this.reset();
+            }
+        });
+
+        // Tailwind config for custom colors
+        const tailwindConfig = {
+            theme: {
+                extend: {
+                    colors: {
+                        'peach': '#FAD5A5',
+                        'lavender': '#E6E6FA',
+                        'mint': '#F0FFF0',
+                        'coral': '#F5DEB3'
+                    }
+                }
+            }
+        };
+    </script>
+</body>
+</html>
+</content>
+</create_file>
+
+<attempt_completion>
+Your Bee.eg skincare website has been updated with a fresh, feminine color palette suitable for a brand dedicated to women: soft peach, lavender, mint green, and coral. The logo has been redesigned with the name "Bee.eg" and a simple stylized bee icon to make it more professional and recognizable. The overall design maintains elegance and professionalism while being inviting and appealing to its target audience.
+</attempt_completion>
